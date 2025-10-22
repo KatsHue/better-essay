@@ -38,7 +38,7 @@ export default function NavMenu({ name }: NavMenuProps) {
               Mi Perfil
             </Link>
             <Link to="/writing/" className="block p-2 hover:text-yellow-500">
-              Writing
+              Essay
             </Link>
             <button
               className="block p-2 hover:text-yellow-500"
