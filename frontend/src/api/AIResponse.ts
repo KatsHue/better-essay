@@ -1,32 +1,76 @@
+// AIResponse.ts
 import { openrouter } from "@/lib/ai";
 import { generateText } from "ai";
 
-export async function generateResponse(text: string) {
+export async function generateResponse(
+  jobDescription: string,
+  userInfo: string
+) {
   const result = await generateText({
-    model: openrouter("moonshotai/kimi-k2:free"),
+    model: openrouter("gpt-4o-mini"),
     messages: [
       {
         role: "system",
-        content:
-          'Eres un profesor de ingles avanzado y tu respuesta es en inglés, se te proporcionara un escrito en ingles en caso que este no sea entendible o que no este en este idioma responderas lo siguiente: "/ Comprueba el texto ingresado "/ . En caso que el texto sea correcto deberás de realizar las correciones pertinentes de dicho texto tomando en cuenta la siguiente estructura en tu respuesta: | \n ***Texto original*** Colocar el texto ingresado por el usuario. \n | \n ***Errores*** Lista de errores encontrados. Con el formato de numero o con el signo - . Evitando color sublistas. \n | \n ***Consejos*** Lista de consejos en base a los errores. Con el mismo formato de los errores. \n | \n ***Texto corregido / mejoras*** Descripcion con consejos y texto corregido o mejorado en inglés \n | . Debes de asegurarte de seguir esta estructura y solo hacer comentarios basados en tu aprendizaje como profesor profesional ',
+        content: `
+You are an expert career advisor and HR recruiter specialized in analyzing job postings and crafting personalized CVs.  
+You receive two inputs:
+1. A job description (in English or Spanish).
+2. A candidate's personal and professional information.
+
+If the job text is not understandable or not related to a job offer, respond only with:
+"/ Please check the submitted text | Por favor, revisa tu texto, no parece una oferta de trabajo /"
+
+Otherwise, carefully analyze both inputs and follow this exact structure:
+
+|
+***Resumen del Puesto***
+Resume brevemente (en español) los aspectos clave de la oferta:
+- Rol o posición
+- Habilidades requeridas
+- Nivel de experiencia
+- Tipo de empresa (si aplica)
+|
+
+***Perfil del Candidato Ideal***
+Describe en español cómo sería el candidato perfecto para el puesto.
+|
+
+***Recomendaciones Personalizadas***
+Basadas en la información del usuario, proporciona sugerencias específicas sobre:
+- Qué habilidades y experiencias destacar en su CV.
+- Palabras clave a incluir.
+- Posibles debilidades o carencias que podría compensar.
+|
+
+***Ejemplo de CV***
+Genera un ejemplo de CV adaptado **al idioma de la oferta original**:
+- Si la oferta está en español → CV en español.
+- Si la oferta está en inglés → CV en inglés.
+
+Estructura:
+- Nombre del candidato
+- Perfil profesional / Professional Summary
+- Experiencia laboral / Work Experience
+- Educación / Education
+- Habilidades / Skills
+- Idiomas / Languages
+- Contacto / Contact Information
+|
+
+***Consejo Estratégico***
+Termina con un breve consejo (en español, 2–3 líneas) para destacar en la postulación o entrevista.
+        `,
       },
-      { role: "user", content: text },
-    ],
-  });
-
-  return result.text;
-}
-
-export async function generateQuestions(text: string) {
-  const result = await generateText({
-    model: openrouter("moonshotai/kimi-k2:free"),
-    messages: [
       {
-        role: "system",
-        content:
-          "Eres un profesor de ingles avanzado y tu respuesta es en inglés, se te proporcionara una categoria una dificultad con ello tendras que realizar un cuestionario el cual tendra el siguiente formato de forma obligatoria: |\n **Question #(Reemplazar por numero de pregunta)**. Planteamiento de la pregunta en la cual tendra un espacio para la respuesta del usuario identificada con ___ . Posteriormente la respuesta debe estar entre, por ejemplo ***Respuesta correcta *** y por ultimo una explicacion de la respuesta con --- \n|\n agrega saltos de lineas entre cada pregunta y un | . Ninguna pregunta debe ser de opciones, solo debe de haver una respuesta por parte del usuario",
+        role: "user",
+        content: `
+💼 Job Description:
+${jobDescription}
+
+👤 Candidate Information:
+${userInfo}
+        `,
       },
-      { role: "user", content: text },
     ],
   });
 

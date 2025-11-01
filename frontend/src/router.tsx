@@ -12,6 +12,9 @@ import ChangePasswordView from "./views/profile/ChangePasswordView";
 import ProfileLayout from "./layouts/ProfileLayout";
 import NotFound from "./views/404/NotFound";
 import DashboardMainView from "./views/DashboardMainView";
+import SendIAView from "./views/writing/SendIAView";
+import WritingLayout from "./layouts/WritingLayout";
+import WritingView from "./views/writing/WritingView";
 
 export default function Router() {
   return (
@@ -23,6 +26,11 @@ export default function Router() {
           <Route element={<ProfileLayout></ProfileLayout>}>
             <Route path="/profile/" element={<ProfileView />} />
             <Route path="/profile/password" element={<ChangePasswordView />} />
+          </Route>
+
+          <Route element={<WritingLayout></WritingLayout>}>
+            <Route path="/writing/" element={<WritingView />} />
+            <Route path="/writing/task-1" element={<SendIAView />} />
           </Route>
         </Route>
 
