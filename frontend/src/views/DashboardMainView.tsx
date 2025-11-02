@@ -16,7 +16,7 @@ export default function DashboardMainView() {
           visible ? "opacity-100" : "opacity-0"
         } drop-shadow-lg`}
       >
-        ¡Bienvenido a Better Essay!
+        ¡Bienvenido a Better-CV!
       </h1>
 
       <p
@@ -24,10 +24,10 @@ export default function DashboardMainView() {
           visible ? "opacity-100" : "opacity-0"
         } drop-shadow-sm`}
       >
-        Better Essay es tu asistente personal para mejorar tus ensayos para
-        IELTS. Analiza tu redacción, detecta errores y te da retroalimentación
-        inmediata para que escribas ensayos más claros, precisos y
-        profesionales.
+        Better-CV es tu asistente inteligente para potenciar tus oportunidades
+        laborales. Analiza la oferta de trabajo y tu experiencia, y genera
+        recomendaciones personalizadas y un ejemplo de CV adaptado a la vacante,
+        tanto en inglés como en español.
       </p>
     </div>
   );

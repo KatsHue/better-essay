@@ -1,4 +1,3 @@
-// SendIAView.tsx
 import { useForm } from "react-hook-form";
 import ErrorMessage from "@/components/ErrorMessage";
 import { useMutation } from "@tanstack/react-query";
@@ -6,16 +5,20 @@ import { toast } from "react-toastify";
 import { getResponseIA } from "@/api/AIAPI";
 import { useEffect, useState } from "react";
 import { formatResponse } from "@/utils/format";
+import { ClipboardCheck } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 export type IAForm = {
-  jobDescription: string;
-  userInfo: string;
+  essayTopic: string;
+  essayContent: string;
 };
 
 export default function SendIAView() {
   const initialValues: IAForm = {
-    jobDescription: "",
-    userInfo: "",
+    essayTopic: "",
+    essayContent: "",
   };
 
   const [ia, setIA] = useState({
@@ -34,14 +37,9 @@ export default function SendIAView() {
 
   const { mutate } = useMutation({
     mutationFn: getResponseIA,
-    onError: (error) => toast.error(error.message),
+    onError: (error: any) => toast.error(error.message),
     onSuccess: (data) => {
-      setIA({
-        ...ia,
-        text: data!,
-        response: true,
-        loading: false,
-      });
+      setIA({ ...ia, text: data!, response: true, loading: false });
     },
   });
 
@@ -53,118 +51,116 @@ export default function SendIAView() {
   }, [ia.text]);
 
   const handleSubmitIA = (formData: IAForm) => {
-    setIA({ ...ia, loading: true });
+    setIA({ ...ia, loading: true, response: false });
     mutate(formData);
   };
 
-  function renderContent(content: string) {
-    const lines = content.split("\n").filter((line) => line.trim() !== "");
-    if (lines.every((l) => /^(\d+\.\s|\-\s|\*\s)/.test(l.trim()))) {
-      const isOrdered = lines.every((l) => /^\d+\./.test(l.trim()));
-      return isOrdered ? (
-        <ol className="list-decimal list-inside space-y-1">
-          {lines.map((line, i) => (
-            <li key={i}>{line.replace(/^\d+\.\s/, "")}</li>
-          ))}
-        </ol>
-      ) : (
-        <ul className="list-disc list-inside space-y-1">
-          {lines.map((line, i) => (
-            <li key={i}>{line.replace(/^(\-|\*)\s/, "")}</li>
-          ))}
-        </ul>
-      );
-    }
-    return <p className="whitespace-pre-line">{content}</p>;
+  function renderContent(content: string | undefined) {
+    if (!content) return null;
+    return (
+      <div className="prose prose-sky max-w-full text-justify">
+        <ReactMarkdown remarkPlugins={[remarkGfm]}>{content}</ReactMarkdown>
+      </div>
+    );
   }
 
   return (
-    <div className="mx-auto max-w-3xl">
-      <h1 className="text-5xl font-black">Asistente de Empleo con IA</h1>
-      <p className="text-2xl font-light text-gray-500 mt-5">
-        Ingresa una oferta de trabajo y tu información personal para recibir
-        recomendaciones y un CV adaptado a la vacante.
+    <div className="mx-auto max-w-3xl px-4 py-8">
+      <h1 className="text-5xl font-black text-gray-900">
+        Asistente de Ensayos con IA
+      </h1>
+      <p className="text-lg sm:text-2xl font-light text-gray-600 mt-4 text-justify">
+        Ingresa el tema de tu ensayo y tu texto. Nuestro asistente te dará
+        correcciones, sugerencias y un ejemplo mejorado del ensayo, además de
+        recomendaciones para futuros escritos.
       </p>
 
       <form
         onSubmit={handleSubmit(handleSubmitIA)}
-        className="mt-10 space-y-5 bg-white shadow-xl p-10 rounded-2xl mb-5 border border-gray-100"
+        className="mt-8 space-y-6 bg-white shadow-lg p-8 rounded-2xl border border-gray-100 transition-all duration-300"
         noValidate
       >
-        {/* Campo de oferta de trabajo */}
+        {/* Tema del ensayo */}
         <div>
-          <label
-            className="text-sm uppercase font-bold tracking-wide text-gray-700"
-            htmlFor="jobDescription"
-          >
-            Oferta de trabajo:
+          <label className="text-sm font-bold tracking-wide text-gray-700 mb-1 block">
+            Tema del ensayo:
           </label>
           <textarea
-            id="jobDescription"
-            placeholder="Pega aquí la descripción del empleo..."
-            className="w-full p-4 mt-2 h-44 bg-gray-50 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-300 placeholder-gray-400 text-gray-800 resize-none"
-            {...register("jobDescription", {
-              required: "La oferta de trabajo es obligatoria",
+            {...register("essayTopic", {
+              required: "El tema es obligatorio",
             })}
+            id="essayTopic"
+            placeholder="Escribe aquí el tema de tu ensayo..."
+            className="w-full p-4 min-h-[6rem] bg-gray-50 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-300 placeholder-gray-400 text-gray-800 resize-none"
           />
-          {errors.jobDescription && (
-            <ErrorMessage>{errors.jobDescription.message}</ErrorMessage>
+          {errors.essayTopic && (
+            <ErrorMessage>{errors.essayTopic.message}</ErrorMessage>
           )}
         </div>
 
-        {/* Campo de información del usuario */}
+        {/* Ensayo del usuario */}
         <div>
-          <label
-            className="text-sm uppercase font-bold tracking-wide text-gray-700"
-            htmlFor="userInfo"
-          >
-            Tu experiencia e información:
+          <label className="text-sm font-bold tracking-wide text-gray-700 mb-1 block">
+            Tu ensayo:
           </label>
           <textarea
-            id="userInfo"
-            placeholder="Describe tu experiencia, educación, habilidades, logros, etc."
-            className="w-full p-4 mt-2 h-44 bg-gray-50 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-300 placeholder-gray-400 text-gray-800 resize-none"
-            {...register("userInfo", {
-              required: "Tu información es obligatoria",
+            {...register("essayContent", {
+              required: "El ensayo es obligatorio",
             })}
+            id="essayContent"
+            placeholder="Escribe aquí tu ensayo..."
+            className="w-full p-4 min-h-[10rem] bg-gray-50 border border-gray-200 rounded-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-400 transition-all duration-300 placeholder-gray-400 text-gray-800 resize-none"
           />
-          {errors.userInfo && (
-            <ErrorMessage>{errors.userInfo.message}</ErrorMessage>
+          {errors.essayContent && (
+            <ErrorMessage>{errors.essayContent.message}</ErrorMessage>
           )}
         </div>
 
-        <input
+        {/* Botón submit con loader */}
+        <button
           type="submit"
-          value={ia.loading ? "Generando..." : "Generar recomendaciones"}
-          className={`bg-sky-600 w-full p-3 text-white uppercase font-bold hover:bg-sky-700 cursor-pointer transition-colors rounded-md ${
+          disabled={ia.loading}
+          className={`w-full py-3 px-6 text-white font-bold uppercase rounded-xl bg-sky-600 hover:bg-sky-700 transition-all duration-300 flex items-center justify-center ${
             ia.loading ? "opacity-50 cursor-not-allowed" : ""
           }`}
-          disabled={ia.loading}
-        />
+        >
+          {ia.loading ? (
+            <>
+              <div className="w-5 h-5 border-4 border-t-transparent border-white rounded-full animate-spin mr-2"></div>
+              Generando...
+            </>
+          ) : (
+            "Generar recomendaciones"
+          )}
+        </button>
       </form>
 
-      {ia.loading && (
-        <div className="flex items-center justify-center mt-10 space-x-2 text-sky-600">
-          <div className="w-5 h-5 border-4 border-sky-400 border-t-transparent rounded-full animate-spin"></div>
-          <p className="text-lg font-medium">Procesando información...</p>
-        </div>
-      )}
+      {/* Resultados */}
+      <AnimatePresence>
+        {ia.response && sections.length > 0 && (
+          <div className="mt-10 space-y-6">
+            {sections.map((section, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: 20 }}
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                className="p-6 bg-gradient-to-r from-sky-50 to-indigo-50 rounded-2xl shadow-md border border-gray-200 hover:shadow-lg transition-all duration-300 flex items-start gap-4"
+              >
+                <ClipboardCheck className="w-6 h-6 text-sky-500 mt-1 flex-shrink-0" />
 
-      {ia.text && (
-        <div className="space-y-6 mt-10">
-          {sections.map((section, idx) => (
-            <div
-              key={idx}
-              className="p-5 bg-gray-50 rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-all duration-300"
-            >
-              <h1 className="font-bold text-lg mb-2 text-sky-700">
-                {section[0]}
-              </h1>
-              {renderContent(section.slice(1).join("\n"))}
-            </div>
-          ))}
-        </div>
-      )}
+                <div>
+                  <h2 className="text-lg font-bold text-sky-700 mb-2">
+                    {section[0]}
+                  </h2>
+                  {renderContent(section.slice(1).join("\n"))}
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }

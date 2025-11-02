@@ -2,10 +2,10 @@ import { BookOpenIcon, UserIcon } from "@heroicons/react/20/solid";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const tabs = [
-  { name: "Writing", href: "/writing/", icon: UserIcon },
+  { name: "Escritura", href: "/escritura/", icon: UserIcon },
   {
-    name: "Essay",
-    href: "/writing/task-1",
+    name: "Ensayos",
+    href: "/escritura/ensayos",
     icon: BookOpenIcon,
   },
 ];

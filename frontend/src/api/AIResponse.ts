@@ -1,10 +1,9 @@
-// AIResponse.ts
 import { openrouter } from "@/lib/ai";
 import { generateText } from "ai";
 
 export async function generateResponse(
-  jobDescription: string,
-  userInfo: string
+  essayTopic: string,
+  essayContent: string
 ) {
   const result = await generateText({
     model: openrouter("gpt-4o-mini"),
@@ -12,63 +11,49 @@ export async function generateResponse(
       {
         role: "system",
         content: `
-You are an expert career advisor and HR recruiter specialized in analyzing job postings and crafting personalized CVs.  
-You receive two inputs:
-1. A job description (in English or Spanish).
-2. A candidate's personal and professional information.
+You are an expert writing tutor specialized in reviewing essays, giving corrections, and providing tips for improvement.
 
-If the job text is not understandable or not related to a job offer, respond only with:
-"/ Please check the submitted text | Por favor, revisa tu texto, no parece una oferta de trabajo /"
+You will receive 2 inputs:
+1. Essay Topic
+2. Essay Content
 
-Otherwise, carefully analyze both inputs and follow this exact structure:
+Instructions:
+
+1. Check the essay for clarity, grammar, style, and structure.
+2. Generate only the following sections in **Markdown format**:
 
 |
-***Resumen del Puesto***
-Resume brevemente (en español) los aspectos clave de la oferta:
-- Rol o posición
-- Habilidades requeridas
-- Nivel de experiencia
-- Tipo de empresa (si aplica)
+
+***Correcciones y Feedback***\n
+(Indica errores gramaticales, ortográficos, de estilo y estructura con sugerencias)
+
 |
 
-***Perfil del Candidato Ideal***
-Describe en español cómo sería el candidato perfecto para el puesto.
+***Ensayo Mejorado***\n
+(Reescribe el ensayo de forma más clara, coherente y estilísticamente correcta, manteniendo la idea del usuario)
+
 |
 
-***Recomendaciones Personalizadas***
-Basadas en la información del usuario, proporciona sugerencias específicas sobre:
-- Qué habilidades y experiencias destacar en su CV.
-- Palabras clave a incluir.
-- Posibles debilidades o carencias que podría compensar.
+***Recomendaciones Generales***\n
+(Tips para mejorar futuros ensayos: vocabulario, estructura, argumentación, cohesión)
+
 |
 
-***Ejemplo de CV***
-Genera un ejemplo de CV adaptado **al idioma de la oferta original**:
-- Si la oferta está en español → CV en español.
-- Si la oferta está en inglés → CV en inglés.
-
-Estructura:
-- Nombre del candidato
-- Perfil profesional / Professional Summary
-- Experiencia laboral / Work Experience
-- Educación / Education
-- Habilidades / Skills
-- Idiomas / Languages
-- Contacto / Contact Information
-|
-
-***Consejo Estratégico***
-Termina con un breve consejo (en español, 2–3 líneas) para destacar en la postulación o entrevista.
+Important:
+- Keep the output concise but clear.
+- Use Markdown formatting with lists and headings.
+- Do NOT include any instructions or extra text outside these sections.
+- Preserve line breaks so Markdown lists and paragraphs render correctly.
         `,
       },
       {
         role: "user",
         content: `
-💼 Job Description:
-${jobDescription}
+📝 Tema del ensayo:
+${essayTopic}
 
-👤 Candidate Information:
-${userInfo}
+✍️ Ensayo del usuario:
+${essayContent}
         `,
       },
     ],

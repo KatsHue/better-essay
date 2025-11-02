@@ -29,8 +29,8 @@ export default function Router() {
           </Route>
 
           <Route element={<WritingLayout></WritingLayout>}>
-            <Route path="/writing/" element={<WritingView />} />
-            <Route path="/writing/task-1" element={<SendIAView />} />
+            <Route path="/escritura/" element={<WritingView />} />
+            <Route path="/escritura/ensayos" element={<SendIAView />} />
           </Route>
         </Route>
 
