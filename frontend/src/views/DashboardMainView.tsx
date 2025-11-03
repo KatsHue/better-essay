@@ -12,11 +12,11 @@ export default function DashboardMainView() {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen px-6 pt-20 text-center">
       <h1
-        className={`text-5xl md:text-6xl font-extrabold text-yellow-600 mb-6 transition-opacity duration-1000 ${
+        className={`text-5xl md:text-6xl font-extrabold text-sky-800 mb-6 transition-opacity duration-1000 ${
           visible ? "opacity-100" : "opacity-0"
         } drop-shadow-lg`}
       >
-        ¡Bienvenido a Better-CV!
+        ¡Bienvenido a Better | Essay!
       </h1>
 
       <p
@@ -24,10 +24,10 @@ export default function DashboardMainView() {
           visible ? "opacity-100" : "opacity-0"
         } drop-shadow-sm`}
       >
-        Better-CV es tu asistente inteligente para potenciar tus oportunidades
-        laborales. Analiza la oferta de trabajo y tu experiencia, y genera
-        recomendaciones personalizadas y un ejemplo de CV adaptado a la vacante,
-        tanto en inglés como en español.
+        Better | Essay es tu asistente inteligente para mejorar la escritura y
+        la comprensión de textos. Corrige ensayos de forma automática y genera
+        resúmenes precisos utilizando inteligencia artificial, para ayudarte a
+        comunicar tus ideas con claridad y profesionalismo.
       </p>
     </div>
   );

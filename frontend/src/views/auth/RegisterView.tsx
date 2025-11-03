@@ -20,130 +20,138 @@ export default function RegisterView() {
     watch,
     reset,
     formState: { errors },
-  } = useForm<UserRegistrationForm>({ defaultValues: initialValues });
+  } = useForm<UserRegistrationForm>({
+    defaultValues: initialValues,
+  });
+
+  const password = watch("password");
 
   const { mutate } = useMutation({
     mutationFn: createAccount,
-    onError: (error) => {
-      toast.error(error.message);
-    },
+    onError: (error) => toast.error(error.message),
     onSuccess: (data) => {
       toast.success(data);
       reset();
     },
   });
 
-  const password = watch("password");
-
   const handleRegister = (formData: UserRegistrationForm) => mutate(formData);
 
   return (
-    <>
-      <h1 className="text-5xl font-black text-white">Crear Cuenta</h1>
-      <p className="text-2xl font-light text-white mt-5">
-        Llena el formulario para {""}
-        <span className=" text-orange-500 font-bold"> crear tu cuenta</span>
-      </p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-sky-100 to-sky-200 px-4 py-10">
+      {/* Contenedor formulario */}
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-10 mb-6">
+        <h1 className="text-4xl font-extrabold text-sky-700 text-center">
+          Crear Cuenta
+        </h1>
+        <p className="mt-2 text-center text-gray-600 text-lg">
+          Llena el formulario para{" "}
+          <span className="text-sky-500 font-semibold">crear tu cuenta</span>
+        </p>
 
-      <form
-        onSubmit={handleSubmit(handleRegister)}
-        className="space-y-8 p-10  bg-white mt-10 rounded-md"
-        noValidate
-      >
-        <div className="flex flex-col gap-5">
-          <label className="font-normal text-2xl" htmlFor="email">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            placeholder="Email de Registro"
-            className="w-full p-3  border-gray-300 border"
-            {...register("email", {
-              required: "El Email de registro es obligatorio",
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: "E-mail no válido",
-              },
-            })}
-          />
-          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-        </div>
-
-        <div className="flex flex-col gap-5">
-          <label className="font-normal text-2xl">Nombre</label>
-          <input
-            type="name"
-            placeholder="Nombre de Registro"
-            className="w-full p-3  border-gray-300 border"
-            {...register("name", {
-              required: "El Nombre de usuario es obligatorio",
-            })}
-          />
-          {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
-        </div>
-
-        <div className="flex flex-col gap-5">
-          <label className="font-normal text-2xl">Password</label>
-
-          <input
-            type="password"
-            placeholder="Password de Registro"
-            className="w-full p-3  border-gray-300 border"
-            {...register("password", {
-              required: "El Password es obligatorio",
-              minLength: {
-                value: 8,
-                message: "El Password debe ser mínimo de 8 caracteres",
-              },
-            })}
-          />
-          {errors.password && (
-            <ErrorMessage>{errors.password.message}</ErrorMessage>
-          )}
-        </div>
-
-        <div className="flex flex-col gap-5">
-          <label className="font-normal text-2xl">Repetir Password</label>
-
-          <input
-            id="password_confirmation"
-            type="password"
-            placeholder="Repite Password de Registro"
-            className="w-full p-3  border-gray-300 border"
-            {...register("password_confirmation", {
-              required: "Repetir Password es obligatorio",
-              validate: (value) =>
-                value === password || "Los Passwords no son iguales",
-            })}
-          />
-
-          {errors.password_confirmation && (
-            <ErrorMessage>{errors.password_confirmation.message}</ErrorMessage>
-          )}
-        </div>
-
-        <input
-          type="submit"
-          value="Registrarme"
-          className="bg-orange-600 hover:bg-orange-700 w-full p-3  text-white font-black  text-xl cursor-pointer rounded-md"
-        />
-      </form>
-      <nav className="mt-10 flex flex-col space-y-4">
-        <Link
-          to={"/auth/login"}
-          className="text-center text-gray-300 font-normal"
+        <form
+          onSubmit={handleSubmit(handleRegister)}
+          className="mt-6 space-y-5"
+          noValidate
         >
-          ¿Ya tienes cuenta? Iniciar sesion
-        </Link>
+          {/* Nombre */}
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">Nombre</label>
+            <input
+              type="text"
+              placeholder="Nombre completo"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-500 placeholder-gray-400 transition"
+              {...register("name", {
+                required: "El Nombre de usuario es obligatorio",
+              })}
+            />
+            {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
+          </div>
 
-        <Link
-          to={"/auth/forgot-password"}
-          className="text-center text-gray-300 font-normal"
-        >
-          ¿Olvidaste tu contraseña? Reestablecer
-        </Link>
-      </nav>
-    </>
+          {/* Email */}
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">Email</label>
+            <input
+              type="email"
+              placeholder="Email de registro"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-500 placeholder-gray-400 transition"
+              {...register("email", {
+                required: "El Email de registro es obligatorio",
+                pattern: { value: /\S+@\S+\.\S+/, message: "E-mail no válido" },
+              })}
+            />
+            {errors.email && (
+              <ErrorMessage>{errors.email.message}</ErrorMessage>
+            )}
+          </div>
+
+          {/* Password */}
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              placeholder="Password de registro"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-500 placeholder-gray-400 transition"
+              {...register("password", {
+                required: "El Password es obligatorio",
+                minLength: {
+                  value: 8,
+                  message: "El Password debe ser mínimo de 8 caracteres",
+                },
+              })}
+            />
+            {errors.password && (
+              <ErrorMessage>{errors.password.message}</ErrorMessage>
+            )}
+          </div>
+
+          {/* Repetir Password */}
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">
+              Repetir Password
+            </label>
+            <input
+              type="password"
+              placeholder="Repite Password"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-500 placeholder-gray-400 transition"
+              {...register("password_confirmation", {
+                required: "Repetir Password es obligatorio",
+                validate: (value) =>
+                  value === password || "Los Passwords no son iguales",
+              })}
+            />
+            {errors.password_confirmation && (
+              <ErrorMessage>
+                {errors.password_confirmation.message}
+              </ErrorMessage>
+            )}
+          </div>
+
+          {/* Botón */}
+          <input
+            type="submit"
+            value="Registrarme"
+            className="w-full py-3 mt-2 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-bold text-lg rounded-2xl shadow-lg hover:from-sky-600 hover:to-sky-700 transition-all duration-300 cursor-pointer"
+          />
+        </form>
+
+        {/* Links */}
+        <div className="mt-4 flex flex-col space-y-2 text-center">
+          <Link
+            to={"/auth/login"}
+            className="text-sky-600 font-medium hover:text-sky-700 transition-colors"
+          >
+            ¿Ya tienes cuenta? Iniciar sesión
+          </Link>
+
+          <Link
+            to={"/auth/forgot-password"}
+            className="text-sky-600 font-medium hover:text-sky-700 transition-colors"
+          >
+            ¿Olvidaste tu contraseña? Reestablecer
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }

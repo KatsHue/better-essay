@@ -1,5 +1,5 @@
 import type { User } from "@/types/index";
-import { Briefcase } from "lucide-react";
+import { BookOpen } from "lucide-react";
 
 type WritingFormProps = {
   data: User;
@@ -15,14 +15,14 @@ export default function WritingForm({ data }: WritingFormProps) {
       >
         {/* Columna izquierda: saludo y nombre */}
         <div className="flex flex-col md:flex-row items-start md:items-center gap-4 md:w-1/3">
-          <Briefcase className="w-12 h-12 text-sky-500" />
+          <BookOpen className="w-12 h-12 text-sky-500" />
           <div>
             <h1 className="text-4xl sm:text-5xl font-extrabold text-gray-900 leading-snug">
               Hola
             </h1>
             <span
-              className="mt-1 inline-block text-2xl sm:text-3xl text-orange-500 
-                             bg-indigo-100 border border-orange-500 rounded-lg py-1 px-4 uppercase"
+              className="mt-1 inline-block text-2xl sm:text-3xl text-sky-600 
+               bg-sky-100 border border-sky-500 rounded-lg py-1 px-4 uppercase"
             >
               {data.name}
             </span>
@@ -32,11 +32,11 @@ export default function WritingForm({ data }: WritingFormProps) {
         {/* Columna derecha: descripción */}
         <div className="md:w-2/3">
           <p className="text-lg sm:text-2xl font-light text-gray-700 leading-relaxed text-justify">
-            En el siguiente apartado podrás ingresar la oferta de trabajo y tu
-            experiencia profesional para recibir recomendaciones personalizadas
-            y un ejemplo de CV adaptado a la vacante. Nuestro asistente analiza
-            la información y genera resultados claros y útiles, tanto en inglés
-            como en español.
+            En el siguiente apartado podrás ingresar tu ensayo o texto para
+            obtener una corrección detallada y un resumen generado con
+            inteligencia artificial. Nuestro asistente analiza la redacción, la
+            gramática y la coherencia del contenido para ofrecerte resultados
+            claros, precisos y fáciles de mejorar.
           </p>
         </div>
       </div>

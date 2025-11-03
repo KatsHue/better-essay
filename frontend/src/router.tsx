@@ -15,6 +15,7 @@ import DashboardMainView from "./views/DashboardMainView";
 import SendIAView from "./views/writing/SendIAView";
 import WritingLayout from "./layouts/WritingLayout";
 import WritingView from "./views/writing/WritingView";
+import SummaryView from "./views/writing/SummaryView";
 
 export default function Router() {
   return (
@@ -30,7 +31,8 @@ export default function Router() {
 
           <Route element={<WritingLayout></WritingLayout>}>
             <Route path="/escritura/" element={<WritingView />} />
-            <Route path="/escritura/ensayos" element={<SendIAView />} />
+            <Route path="/escritura/ensayo" element={<SendIAView />} />
+            <Route path="/escritura/resumen" element={<SummaryView />} />
           </Route>
         </Route>
 

@@ -4,8 +4,13 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const tabs = [
   { name: "Escritura", href: "/escritura/", icon: UserIcon },
   {
-    name: "Ensayos",
-    href: "/escritura/ensayos",
+    name: "Ensayo",
+    href: "/escritura/ensayo",
+    icon: BookOpenIcon,
+  },
+  {
+    name: "Resumen",
+    href: "/escritura/resumen",
     icon: BookOpenIcon,
   },
 ];
@@ -22,6 +27,7 @@ export default function Tabs() {
 
   return (
     <div className="mb-10">
+      {/* Versión móvil */}
       <div className="sm:hidden">
         <label htmlFor="tabs" className="sr-only">
           Select a tab
@@ -29,22 +35,21 @@ export default function Tabs() {
         <select
           id="tabs"
           name="tabs"
-          className="block w-full rounded-md border-gray-300 focus:border-amber-500 focus:ring-amber-700"
+          className="block w-full rounded-md border-gray-300 focus:border-sky-500 focus:ring-sky-600"
           onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
             navigate(e.target.value)
           }
           value={currentTab}
         >
-          {tabs.map((tab) => {
-            return (
-              <option value={tab.href} key={tab.name}>
-                {tab.name}
-              </option>
-            );
-          })}
+          {tabs.map((tab) => (
+            <option value={tab.href} key={tab.name}>
+              {tab.name}
+            </option>
+          ))}
         </select>
       </div>
 
+      {/* Versión escritorio */}
       <div className="hidden sm:block">
         <div className="border-b border-gray-200">
           <nav className="-mb-px flex space-x-8" aria-label="Tabs">
@@ -54,15 +59,15 @@ export default function Tabs() {
                 to={tab.href}
                 className={classNames(
                   location.pathname === tab.href
-                    ? "border-yellow-600 text-yellow-600"
+                    ? "border-sky-600 text-sky-600"
                     : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
-                  "group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium"
+                  "group inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium transition-colors duration-200"
                 )}
               >
                 <tab.icon
                   className={classNames(
                     location.pathname === tab.href
-                      ? "text-yellow-600"
+                      ? "text-sky-600"
                       : "text-gray-400 group-hover:text-gray-500",
                     "-ml-0.5 mr-2 h-5 w-5"
                   )}

@@ -20,73 +20,75 @@ export default function RequestNewCodeView() {
 
   const { mutate } = useMutation({
     mutationFn: requestConfirmationCode,
-    onError: (error) => {
-      toast.error(error.message);
-    },
-    onSuccess: (data) => {
-      toast.success(data);
-    },
+    onError: (error) => toast.error(error.message),
+    onSuccess: (data) => toast.success(data),
   });
 
   const handleRequestCode = (formData: RequestConfirmationCodeForm) =>
     mutate(formData);
 
   return (
-    <>
-      <h1 className="text-5xl font-black text-white">
-        Solicitar Código de Confirmación
-      </h1>
-      <p className="text-2xl font-light text-white mt-5">
-        Coloca tu e-mail para recibir {""}
-        <span className=" text-orange-500 font-bold"> un nuevo código</span>
-      </p>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-sky-100 to-sky-200 px-4 py-16">
+      {/* Contenedor formulario */}
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-10 mb-6">
+        <h1 className="text-4xl font-extrabold text-sky-700 text-center">
+          Solicitar Código de Confirmación
+        </h1>
+        <p className="mt-2 text-center text-gray-700 text-lg">
+          Coloca tu e-mail para recibir{" "}
+          <span className="text-sky-500 font-semibold">un nuevo código</span>
+        </p>
 
-      <form
-        onSubmit={handleSubmit(handleRequestCode)}
-        className="space-y-8 p-10 rounded-lg bg-white mt-10"
-        noValidate
-      >
-        <div className="flex flex-col gap-5">
-          <label className="font-normal text-2xl" htmlFor="email">
-            Email
-          </label>
+        <form
+          onSubmit={handleSubmit(handleRequestCode)}
+          className="mt-6 space-y-5"
+          noValidate
+        >
+          {/* Email */}
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Email de registro"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-500 placeholder-gray-400 transition"
+              {...register("email", {
+                required: "El Email de registro es obligatorio",
+                pattern: {
+                  value: /\S+@\S+\.\S+/,
+                  message: "E-mail no válido",
+                },
+              })}
+            />
+            {errors.email && (
+              <ErrorMessage>{errors.email.message}</ErrorMessage>
+            )}
+          </div>
+
+          {/* Botón */}
           <input
-            id="email"
-            type="email"
-            placeholder="Email de Registro"
-            className="w-full p-3 rounded-lg border-gray-300 border"
-            {...register("email", {
-              required: "El Email de registro es obligatorio",
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: "E-mail no válido",
-              },
-            })}
+            type="submit"
+            value="Enviar Código"
+            className="w-full py-3 mt-2 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-bold text-lg rounded-2xl shadow-lg hover:from-sky-600 hover:to-sky-700 transition-all duration-300 cursor-pointer"
           />
-          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
+        </form>
+
+        {/* Links */}
+        <div className="mt-6 flex flex-col space-y-2 text-center">
+          <Link
+            to="/auth/login"
+            className="text-sky-600 font-medium hover:text-sky-700 transition-colors"
+          >
+            ¿Ya tienes cuenta? Iniciar Sesión
+          </Link>
+          <Link
+            to="/auth/forgot-password"
+            className="text-sky-600 font-medium hover:text-sky-700 transition-colors"
+          >
+            ¿Olvidaste tu contraseña? Reestablecer
+          </Link>
         </div>
-
-        <input
-          type="submit"
-          value="Enviar Código"
-          className="bg-orange-600 hover:bg-orange-700 w-full p-3 rounded-lg text-white font-black  text-xl cursor-pointer"
-        />
-      </form>
-
-      <nav className="mt-10 flex flex-col space-y-4">
-        <Link
-          to="/auth/login"
-          className="text-center text-gray-300 font-normal"
-        >
-          ¿Ya tienes cuenta? Iniciar Sesión
-        </Link>
-        <Link
-          to="/auth/forgot-password"
-          className="text-center text-gray-300 font-normal"
-        >
-          ¿Olvidaste tu contraseña? Reestablecer
-        </Link>
-      </nav>
-    </>
+      </div>
+    </div>
   );
 }

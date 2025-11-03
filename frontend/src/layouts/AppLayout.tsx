@@ -17,7 +17,7 @@ export const AppLayout = () => {
   if (data)
     return (
       <>
-        <header className="bg-gray-800 py-5">
+        <header className="bg-[#B5C7DB] py-5">
           <div className=" max-w-screen-2xl mx-auto flex flex-col lg:flex-row justify-between items-center">
             <div className="w-16 m-3">
               <Link to="/">
@@ -28,7 +28,7 @@ export const AppLayout = () => {
             <NavMenu name={data.name} />
           </div>
         </header>
-        <section className="max-w-screen-2xl mx-auto mt-10 p-5">
+        <section className="max-w-screen-2xl mx-auto mt-0 p-5">
           <Outlet />
         </section>
 

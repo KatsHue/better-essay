@@ -7,101 +7,98 @@ import { authenticateUser } from "@/api/AuthAPI";
 import { toast } from "react-toastify";
 
 export default function LoginView() {
-  const initialValues: UserLoginForm = {
-    email: "",
-    password: "",
-  };
+  const initialValues: UserLoginForm = { email: "", password: "" };
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm({ defaultValues: initialValues });
-
   const navigate = useNavigate();
 
   const { mutate } = useMutation({
     mutationFn: authenticateUser,
-    onError: (error) => {
-      toast.error(error.message);
-    },
-    onSuccess: () => {
-      navigate("/");
-    },
+    onError: (error) => toast.error(error.message),
+    onSuccess: () => navigate("/"),
   });
 
   const handleLogin = (formData: UserLoginForm) => mutate(formData);
 
   return (
-    <>
-      <h1 className="text-5xl font-black text-white">Iniciar Sesión</h1>
-      <p className="text-2xl font-light text-white mt-5">
-        Comienza a planear tus proyectos {""}
-        <span className=" text-orange-500 font-bold">
-          {" "}
-          iniciando sesión en este formulario{" "}
-        </span>
-      </p>
-      <form
-        onSubmit={handleSubmit(handleLogin)}
-        className="space-y-8 p-10 bg-white rounded-md mt-10"
-        noValidate
-      >
-        <div className="flex flex-col gap-5">
-          <label className="font-normal text-2xl">Email</label>
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-sky-100 to-sky-200 px-4">
+      {/* Contenedor formulario */}
+      <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl p-10">
+        <h1 className="text-4xl font-extrabold text-sky-700 text-center">
+          Iniciar Sesión
+        </h1>
+        <p className="mt-2 text-center text-gray-600 text-lg">
+          Comienza a planear tus proyectos{" "}
+          <span className="text-sky-500 font-semibold">iniciando sesión</span>
+        </p>
 
-          <input
-            id="email"
-            type="email"
-            placeholder="Email de Registro"
-            className="w-full p-3  border-gray-300 border"
-            {...register("email", {
-              required: "El Email es obligatorio",
-              pattern: {
-                value: /\S+@\S+\.\S+/,
-                message: "E-mail no válido",
-              },
-            })}
-          />
-          {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
-        </div>
-
-        <div className="flex flex-col gap-5">
-          <label className="font-normal text-2xl">Password</label>
-
-          <input
-            type="password"
-            placeholder="Password de Registro"
-            className="w-full p-3  border-gray-300 border"
-            {...register("password", {
-              required: "El Password es obligatorio",
-            })}
-          />
-          {errors.password && (
-            <ErrorMessage>{errors.password.message}</ErrorMessage>
-          )}
-        </div>
-
-        <input
-          type="submit"
-          value="Iniciar Sesión"
-          className="bg-orange-600 hover:bg-orange-700 w-full p-3  text-white font-black  text-xl cursor-pointer rounded-md"
-        />
-      </form>
-      <nav className="mt-10 flex flex-col space-y-4">
-        <Link
-          to={"/auth/register"}
-          className="text-center text-gray-300 font-normal"
+        <form
+          onSubmit={handleSubmit(handleLogin)}
+          className="mt-6 space-y-5"
+          noValidate
         >
-          ¿No tienes cuenta? Crea una
-        </Link>
+          {/* Email */}
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">Email</label>
+            <input
+              id="email"
+              type="email"
+              placeholder="Email de registro"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-500 placeholder-gray-400 transition"
+              {...register("email", {
+                required: "El Email es obligatorio",
+                pattern: { value: /\S+@\S+\.\S+/, message: "E-mail no válido" },
+              })}
+            />
+            {errors.email && (
+              <ErrorMessage>{errors.email.message}</ErrorMessage>
+            )}
+          </div>
 
-        <Link
-          to={"/auth/forgot-password"}
-          className="text-center text-gray-300 font-normal"
-        >
-          ¿Olvidaste tu contraseña? Reestablecer
-        </Link>
-      </nav>
-    </>
+          {/* Password */}
+          <div className="flex flex-col gap-1">
+            <label className="font-medium text-gray-700">Password</label>
+            <input
+              type="password"
+              placeholder="Password de registro"
+              className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-sky-500 placeholder-gray-400 transition"
+              {...register("password", {
+                required: "El Password es obligatorio",
+              })}
+            />
+            {errors.password && (
+              <ErrorMessage>{errors.password.message}</ErrorMessage>
+            )}
+          </div>
+
+          {/* Botón */}
+          <input
+            type="submit"
+            value="Iniciar Sesión"
+            className="w-full py-3 mt-2 bg-gradient-to-r from-sky-500 to-sky-600 text-white font-bold text-lg rounded-2xl shadow-lg hover:from-sky-600 hover:to-sky-700 transition-all duration-300 cursor-pointer"
+          />
+        </form>
+
+        {/* Links */}
+        <div className="mt-4 flex flex-col space-y-2 text-center">
+          <Link
+            to={"/auth/register"}
+            className="text-sky-600 font-medium hover:text-sky-700 transition-colors"
+          >
+            ¿No tienes cuenta? Crea una
+          </Link>
+
+          <Link
+            to={"/auth/forgot-password"}
+            className="text-sky-600 font-medium hover:text-sky-700 transition-colors"
+          >
+            ¿Olvidaste tu contraseña? Reestablecer
+          </Link>
+        </div>
+      </div>
+    </div>
   );
 }
