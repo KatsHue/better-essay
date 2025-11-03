@@ -31,7 +31,7 @@ export default function LoginView() {
           Iniciar Sesión
         </h1>
         <p className="mt-2 text-center text-gray-600 text-lg">
-          Comienza a planear tus proyectos{" "}
+          Mejora tus ensayos y resúmenes con IA{" "}
           <span className="text-sky-500 font-semibold">iniciando sesión</span>
         </p>
 
