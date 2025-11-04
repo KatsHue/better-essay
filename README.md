@@ -38,6 +38,6 @@ Backend (Node.js + Express)
    ↓
 MongoDB Atlas (Base de datos)
    ↓
-Microservicios IA:
+Servicios IA:
    ├── OpenRouter (GPT-4o-mini) → Corrección de ensayos
    └── Hugging Face (DistilBART) → Generación de resúmenes
