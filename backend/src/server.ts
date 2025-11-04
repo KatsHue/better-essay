@@ -20,5 +20,8 @@ app.use("/api/auth", authRoutes);
 
 // Nueva ruta para Speaking Task 1
 //app.use("/api/speaking/task-one", speakingTaskOneRoutes);
+app.get("/", (req, res) => {
+  res.send("✅ Better Essay API funcionando correctamente en Render 🚀");
+});
 
 export default app;
