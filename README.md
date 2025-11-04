@@ -2,7 +2,7 @@
 
 <h2 align="center">✍️ Better | Essay — Asistente Inteligente de Escritura</h2>
 
-Aplicación web que **corrige ensayos y genera resúmenes automáticamente** utilizando modelos de **Inteligencia Artificial**.  
+Aplicación web que **corrige ensayos y genera resúmenes** automáticamente utilizando modelos de **Inteligencia Artificial**.  
 Desarrollada con **React + Node.js + Express + MongoDB Atlas + FastAPI**, e integrada con **OpenRouter (GPT-4o-mini)** y **Hugging Face (DistilBART)**.
 
 > 💡 Asegúrate de abrir primero el backend y esperar a que cargue para iniciar sesión correctamente: <br>
