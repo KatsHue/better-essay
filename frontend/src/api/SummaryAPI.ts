@@ -5,7 +5,7 @@ export type SummaryForm = {
   textToSummarize: string;
 };
 
-const API_URL = "http://127.0.0.1:8000/resumir";
+const API_URL = import.meta.env.VITE_SUMMARY_API;
 
 export async function getSummaryIA({ textToSummarize }: SummaryForm) {
   try {
