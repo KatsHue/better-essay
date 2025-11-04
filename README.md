@@ -5,8 +5,8 @@
 Aplicación web que **corrige ensayos y genera resúmenes automáticamente** utilizando modelos de **Inteligencia Artificial**.  
 Desarrollada con **React + Node.js + Express + MongoDB Atlas + FastAPI**, e integrada con **OpenRouter (GPT-4o-mini)** y **Hugging Face (DistilBART)**.
 
-> 💡 Asegúrate de abrir primero el backend y esperar a que cargue para iniciar sesión correctamente:
-> **Puedes usar este usuario y contraseña si no deseas registrarte:**
+> 💡 Asegúrate de abrir primero el backend y esperar a que cargue para iniciar sesión correctamente: <br>
+> **Puedes usar este usuario y contraseña si no deseas registrarte:**<br>
 > **usuario: correo@gmail.com | contraseña: password**
 
 <br>
