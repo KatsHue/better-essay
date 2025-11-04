@@ -19,13 +19,9 @@ class TextRequest(BaseModel):
     texto: str
 
 def limpiar_texto(texto: str) -> str:
-    """Solo limpieza básica: quitar saltos de línea y espacios extras"""
     return " ".join(texto.split())
 
 def resumir_texto_largo(texto: str, max_length=150, min_length=50, chunk_size=500) -> str:
-    """
-    Resume textos largos en chunks y combina los resultados.
-    """
     palabras = texto.split()
     # Crear chunks de tamaño chunk_size
     chunks = [" ".join(palabras[i:i+chunk_size]) for i in range(0, len(palabras), chunk_size)]
@@ -51,7 +47,6 @@ def resumir_texto_largo(texto: str, max_length=150, min_length=50, chunk_size=50
 
 @app.post("/resumir")
 def generar_resumen(req: TextRequest):
-    """Genera un resumen de texto usando IA"""
     if not req.texto.strip():
         return {"error": "No se recibió texto válido."}
 
