@@ -13,7 +13,7 @@ Desarrollada con **React + Node.js + Express + MongoDB Atlas + FastAPI**, e inte
 
 <a href="https://better-essay-backend.onrender.com/" target="_blank"><strong>⚙️ Backend</strong></a>  
 <a href="https://better-essay.onrender.com" target="_blank"><strong>💻 Demo</strong></a> <br>
-<a href="https://www.canva.com/design/DAG3tIi2qmI/jpfOvWAge-Bh3ccu_Tk2nw/view?utlId=h810319d3f4#7" target="_blank"><strong>Presentación</strong></a>  
+<a href="https://www.canva.com/design/DAG3tIi2qmI/jpfOvWAge-Bh3ccu_Tk2nw/view?utlId=h810319d3f4#1" target="_blank"><strong>Presentación</strong></a>  
 
 <br><br>
 📚 <strong>Programación para Internet 2025B</strong>
